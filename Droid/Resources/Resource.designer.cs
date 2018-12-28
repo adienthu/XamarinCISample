@@ -45,7 +45,7 @@ namespace XamarinCISample.Droid
 		{
 			
 			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			public const int version_label = 2131034112;
 			
 			static Id()
 			{

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using Android.Content.PM;
 
 namespace XamarinCISample.Droid
 {
@@ -16,11 +17,12 @@ namespace XamarinCISample.Droid
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button>(Resource.Id.myButton);
+			PackageInfo pinfo = PackageManager.GetPackageInfo(PackageName, 0);
+			int versionNumber = pinfo.VersionCode;
+			string versionName = pinfo.VersionName;
 
-			button.Click += delegate { button.Text = $"{count++} clicks!"; };
+			TextView versionLabel = FindViewById<TextView>(Resource.Id.version_label);
+			versionLabel.Text = versionName + " (" + versionNumber + ") - UAT";
 		}
 	}
 }
