@@ -1,0 +1,33 @@
+#!/bin/sh
+ 
+# Save build configuration passed by IDE
+buildConfiguration=$1
+ 
+# Get package value from original AndroidManifest.xml file
+applicationId=$(xmllint --xpath "string(//manifest/@package)" AndroidManifest.xml)
+ 
+# newApplicationId is original application id for now
+newApplicationId=$applicationId
+ 
+# declare all possible postfixes
+devPostfix=".dev"
+uatPostfix=".uat"
+ 
+# remove previously added postfix
+if [[ $newApplicationId == *$devPostfix ]]; then
+    newApplicationId=${applicationId%$devPostfix}
+elif [[ $newApplicationId == *$uatPostfix ]]; then
+    newApplicationId=${applicationId%$uatPostfix}
+fi
+ 
+# Append appropriate postfix to applicationId
+if [[ $buildConfiguration = "Debug" ]] || [[ $buildConfiguration = "Release" ]]; then
+    newApplicationId+=$devPostfix
+elif [[ $buildConfiguration = "UAT-Debug" ]] || [[ $buildConfiguration = "UAT-Release" ]]; then
+    newApplicationId+=$uatPostfix
+fi
+ 
+# Replace all occurences of application id in AndroidManifest.xml
+sed -i '' -e "s/$applicationId/$newApplicationId/g" AndroidManifest.xml
+
+echo "GenerateAndroidManifest script executed."
