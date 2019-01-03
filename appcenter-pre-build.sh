@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-cd iOS/
-GenerateInfoPlist $APPCENTER_XAMARIN_CONFIGURATION
+cd iOS
+./GenerateInfoPlist $APPCENTER_XAMARIN_CONFIGURATION
